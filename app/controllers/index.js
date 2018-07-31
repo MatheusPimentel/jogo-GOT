@@ -12,9 +12,13 @@ module.exports.autenticar = function (application, req, res) {
     let erros = req.validationErrors();
 
     if (erros) {
-        res.render('index', {validacao:erros});
+        res.render('index', {validacao: erros});
         return;
     }
+
+    let connection = application.config.dbConnection;
+    let UsuariosDao = new application.app.models.UsuariosDao(connection);
+    UsuariosDao.autenticar();
 
     res.send('tudo ok para criar a sessão')
 };
